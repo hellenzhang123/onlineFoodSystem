@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.AddressDao">
+  <resultMap id="AddressResultMap" type="com.example.model.Address" >
+    <id column="aid" property="id" jdbcType="INTEGER" />
+    <result column="aname" property="name" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- <select id="selectAddressByUserId" parameterType="Integer" resultType="com.example.model.Address">
+      select *
+        from address
+        where user_id=#{id}
+  </select> -->
+  <insert id="addAddress" parameterType="com.example.model.Address" useGeneratedKeys="true" keyProperty="id">
+    insert into address(name, userId) values(#{name}, #{userId})
+  </insert>
+</mapper>

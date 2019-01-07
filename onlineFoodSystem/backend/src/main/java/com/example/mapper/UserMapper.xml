@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.UserDao" >
+<resultMap id="UserResultMapAlone" type="com.example.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stuNumber" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="UserResultMap" type="com.example.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stuNumber" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <collection property="address" resultMap="com.example.dao.AddressDao.AddressResultMap" javaType="ArrayList" ofType="com.example.model.Address">
+    </collection>
+   <!--  <collection property="address" column="id"
+                javaType="ArrayList" ofType="com.example.model.Address" 
+                select="com.example.mapper.AddressMapper.selectAddressByUserId">
+                <id property="id" column="id"></id>
+                <resultproperty="name" column="name"></resultproperty>
+    </collection> -->
+        <!-- <collection property="address" column="userId" ofType="com.example.model.Address">
+        <result column="id" property="id"/>  
+        <result column="name" property="name"/>  
+    </collection> -->
+  </resultMap>
+  <select id="findByName" resultMap="UserResultMap">
+	select u.*, a.id as aid, a.name as aname, a.userId
+        from users u, address a
+        where
+        u.id=a.userId
+  </select>
+  <!--  select id, name, stuNumber, avatar, gender, name, password, phone, question, answer, email  from users
+     where name=#{name} -->
+ <!--   select u.id as uid, u.name as uname, stuNumber, gender, password, phone, question, answer, email, a.*
+        from users u, address a
+      where
+        u.id=a.userId and u.name=#{name} -->
+  <insert id="addUser" parameterType="com.example.model.User" useGeneratedKeys="true" keyProperty="id">
+    insert into users(name, stuNumber, gender, password, phone, question, answer, email)
+    values( #{name}, #{stuNumber}, #{gender}, #{password}, #{phone}, #{question}, #{answer}, #{email})
+  </insert>
+  <!--  <insert id="addUser" parameterType=com.example.model.User" useGeneratedKeys="true" keyProperty="id">
+      insert into user
+        (uid,loginname,loginpass,email,status,activationCode) 
+        values (#{uid},#{loginname},#{loginpass},#{email},#{status},#{activationCode})
+  </insert> -->
+  <!-- <update id="updateLoginpass" parameterType="map">
+  	  update t_user
+  	    set loginpass=#{newPass}
+  	    where uid=#{uid}
+  </update>
+  <select id="findByLoginnameAndLoginpass" parameterType="map" resultType="com.tyust.entity.User">
+  	  select * 
+  	    from t_user 
+  	    where loginname=#{loginname} and loginpass=#{loginpass}
+  </select>
+  <select id="findByCode" parameterType="string" resultType="com.tyust.entity.User">
+  	  select * 
+  	    from t_user 
+  	    where activationCode=#{activationCode}
+  </select>
+  <update id="updateStatus" parameterType="map">
+  	  update t_user
+  	    set status=#{status} 
+  	    where uid=#{uid}
+  </update>
+  <select id="ajaxValidateLoginname" parameterType="string" resultType="boolean">
+  	  select count(1)
+  	    from t_user 
+  	    where loginname=#{loginname}
+  </select>
+  <select id="ajaxValidateEmail" parameterType="string" resultType="boolean">
+  	  select count(1)
+  	    from t_user 
+  	    where email=#{email}
+  </select>
+  <insert id="add" parameterType="com.tyust.entity.User">
+  	  insert into t_user 
+		(uid,loginname,loginpass,email,status,activationCode) 
+		values (#{uid},#{loginname},#{loginpass},#{email},#{status},#{activationCode})
+  </insert> -->
+</mapper>
